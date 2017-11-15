@@ -34,7 +34,7 @@ protected:
 		SDL_Texture * dest,
 		const SDL_Rect *cut,
 		const SDL_Rect* paste
-		);
+		) throw (runtime_error);
 };
 
 #endif
