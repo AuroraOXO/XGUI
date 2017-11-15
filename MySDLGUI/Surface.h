@@ -10,5 +10,6 @@ public:
 	Surface();
 	~Surface();
 	virtual void DoDraw(SDL_Renderer *render);
+	virtual bool DoHandleEvent(SDL_Event &event);
 };
 #endif

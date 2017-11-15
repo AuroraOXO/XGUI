@@ -7,12 +7,13 @@ class View :
 {
 public:
 	View(SDL_Window *_win);
+	~View();
 protected:
 	SDL_Window *windows;
 	SDL_Renderer *renderer;
 	void Show();
 	void Show(SDL_Renderer*);
 	virtual void DoDraw(SDL_Renderer *render);
-	virtual bool DoHandleEvent(SDL_Event &_event);
+	virtual bool DoHandleEvent(SDL_Event &event);
 };
 #endif

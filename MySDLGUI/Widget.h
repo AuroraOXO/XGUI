@@ -25,15 +25,15 @@ protected:
 	void SetPos(float x, float y, float w, float h);
 	SDL_Rect GetAbsPos();
 	void Draw( SDL_Renderer *render);
-	bool HandleEvent(SDL_Event &_event);
+	bool HandleEvent(SDL_Event &event);
 	virtual void DoDraw(SDL_Renderer *render)=0;
-	virtual bool DoHandleEvent(SDL_Event &_event) = 0;
+	virtual bool DoHandleEvent(SDL_Event &event) = 0;
 	friend void  TextureCopy(
 		SDL_Renderer * ren,
 		SDL_Texture * src,
-		SDL_Texture * dest=NULL,
-		const SDL_Rect *cut=NULL,
-		const SDL_Rect* paste=NULL
+		SDL_Texture * dest,
+		const SDL_Rect *cut,
+		const SDL_Rect* paste
 		);
 };
 

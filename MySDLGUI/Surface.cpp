@@ -23,3 +23,8 @@ void Surface::DoDraw(SDL_Renderer *render) {
 		SDL_SetRenderTarget(render, NULL);
 	}
 }
+
+bool Surface::DoHandleEvent(SDL_Event& event) {
+
+	return false;
+}

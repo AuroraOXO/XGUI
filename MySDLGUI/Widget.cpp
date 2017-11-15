@@ -15,8 +15,8 @@ Widget::~Widget()
 void Widget::Draw(SDL_Renderer *render) {
 	//TextureCopy(render,background,NULL,NULL,(SDL_Rect*)&position);
 }
-bool Widget::HandleEvent(SDL_Event &_event) {
-
+bool Widget::HandleEvent(SDL_Event &event) {
+	return false;
 }
 const Widget & Widget::SetRelavitePos(pos::relativepos _corner, pos::relativepos _quadrant) {
 	corner = _corner;
@@ -26,7 +26,7 @@ const Widget & Widget::SetRelavitePos(pos::relativepos _corner, pos::relativepos
 
 void Widget::SetPos(int x, int y, int w, int h){
 
-	position={ x+0.1,y+0.1,w+0.1,h+0.1 };
+	position={ float(x+0.1),float(y+0.1),float(w+0.1),float (h+0.1) };
 }
 void Widget::SetPos(float x, float y, float w, float h) {
 

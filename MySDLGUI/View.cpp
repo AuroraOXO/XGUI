@@ -11,3 +11,10 @@ View::~View()
 {
 }
 
+void View::DoDraw(SDL_Renderer *render) {
+
+
+}
+bool View::DoHandleEvent(SDL_Event &event) {
+	return false;
+}
