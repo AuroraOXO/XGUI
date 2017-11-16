@@ -18,13 +18,13 @@ void Widget::Draw(SDL_Renderer *render) {
 bool Widget::HandleEvent(SDL_Event &event) {
 	return false;
 }
-/*
+
 const Widget & Widget::SetRelavitePos(pos::relativepos _corner, pos::relativepos _quadrant) {
 	corner = _corner;
 	quadrant = _quadrant;
 	return *this;
 }
-*/
+
 
 void Widget::SetPos(int x, int y, int w, int h){
 
