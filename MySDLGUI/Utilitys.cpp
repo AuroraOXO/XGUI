@@ -17,7 +17,7 @@ bool CheckColl(int px, int py, const SDL_Rect &rect)
 	return CheckColl(px, py, rect.x, rect.y, rect.w, rect.h);
 }
 
-inline void  TextureCopy(
+ void  TextureCopy(
 	SDL_Renderer * ren,
 	SDL_Texture * src,
 	SDL_Texture * dest,

@@ -12,6 +12,7 @@ class Widget
 public:
 	
 protected:
+	SDL_Texture * drawboard;
 	SDL_Texture *background;
 	__f_position position;
 	pos::relativepos corner;

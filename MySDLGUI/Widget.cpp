@@ -13,7 +13,7 @@ Widget::~Widget()
 }
 
 void Widget::Draw(SDL_Renderer *render) {
-	//TextureCopy(render,background,NULL,NULL,(SDL_Rect*)&position);
+	TextureCopy(render,background,drawboard,NULL,NULL);
 }
 bool Widget::HandleEvent(SDL_Event &event) {
 	return false;
