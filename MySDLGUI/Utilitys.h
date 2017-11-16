@@ -21,6 +21,6 @@ void TextureCopy(
 	SDL_Texture * dest=NULL,
 	const SDL_Rect *cut=NULL,
 	const SDL_Rect* paste=NULL
-	) throw (runtime_error);
+	) ;
 	
 #endif

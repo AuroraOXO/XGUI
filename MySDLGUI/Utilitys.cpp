@@ -23,7 +23,7 @@ inline void  TextureCopy(
 	SDL_Texture * dest,
 	const SDL_Rect *cut,
 	const SDL_Rect* paste
-	) throw (runtime_error)
+	) 
 {
 	if (src == NULL)
 		throw runtime_error("Source texture is invalid");
