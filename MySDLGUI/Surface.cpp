@@ -1,17 +1,12 @@
 #include "stdafx.h"
 #include "Surface.h"
 
-
-Surface::Surface()
-{
-}
-
-
 Surface::~Surface()
 {
 }
 
 void Surface::DoDraw(SDL_Renderer *render) {
+	SDL_Rect pos;
 	if (drawboard == NULL&&position.w>0&&position.h>0) {
 		drawboard = SDL_CreateTexture(render,
 			SDL_PIXELFORMAT_RGBA8888,
@@ -22,6 +17,7 @@ void Surface::DoDraw(SDL_Renderer *render) {
 		SDL_RenderClear(render);
 		SDL_SetRenderTarget(render, NULL);
 	}
+	
 }
 
 bool Surface::DoHandleEvent(SDL_Event& event) {

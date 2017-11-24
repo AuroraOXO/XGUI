@@ -4,6 +4,9 @@
 
 View::View(SDL_Window *_win)
 {
+	int _w,_h;
+	SDL_GetWindowSize(_win,&_w,&_h);
+	position={0,0,_w+0.1,_h+0.1};
 }
 
 

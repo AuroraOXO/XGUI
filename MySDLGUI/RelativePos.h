@@ -19,8 +19,10 @@ struct pos
 #endif
 
 /*
-void foo(pos::relativepos p)
+void foo(pos::relativepos a,pos::relativepos b)
 {
+	if (a|b&(pos::top|pos::left)
+	
 printf ("%d\n",p);
 if (p&pos::top)
 puts("top");
