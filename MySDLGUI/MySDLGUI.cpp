@@ -7,20 +7,33 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_image.h>
+#include "View.h"
+#include "Surface.h"
+#ifdef __ANDROID__
+extern int Android_ScreenWidth;
+extern int Android_ScreenHeight;
+#define WIN_W  Android_ScreenWidth
+#define WIN_H  Android_ScreenHeight
+#else
+#define WIN_W 640
+#define WIN_H 480
+#endif
+
 SDL_Window *window;
 SDL_Renderer *renderer;
 
 int Init();
 
-#define WIN_W 640
-#define WIN_H 480
-
 int main(int argc, char *argv[]) {
-	if (Init() > 0)
+
+	if (Init() <0)
 	{
 		SDL_Log("Init Error");
 		return 1;
 	}
+	View v(window);
+	Surface sur();
+
 	SDL_Event event;
 	while ( true){
 		SDL_WaitEvent(&event);

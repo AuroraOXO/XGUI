@@ -4,6 +4,7 @@
 #include <vector>
 #include <SDL.h>
 #include <assert.h>
+#include <typeinfo>
 #include "Utilitys.h"
 #include "RelativePos.h"
 using namespace std;
@@ -12,10 +13,6 @@ class Widget
 private:
 	pos::relativepos corner;
 	pos::relativepos quadrant;
-	
-	void (*__RowFun)(Widget *);
-	void (*__ColFun)(Widget *);
-	void __SetFun();
 	
 protected:
 	SDL_Texture *drawboard;
@@ -27,7 +24,7 @@ protected:
 	vector <Widget *> child;
 public:
 	SDL_Rect GetRelativePos();
-	SDL_Rect GetAbsPos();
+	void UpdatePos();
 	
 public:
 template <class A,class B ,class C,class D>
@@ -35,15 +32,13 @@ template <class A,class B ,class C,class D>
 	position={(double )x,(double )y,(double )w,(double )h};
 	if (typeid(x)==typeid(int))
 	position.x+=0.1;
-	
 	if (typeid(y)==typeid(int))
 	position.y+=0.1;
-	
 	if (typeid(w)==typeid(int))
 	position.w+=0.1;
-	
 	if (typeid(h)==typeid(int))
 	position.h+=0.1;
+	
 	}
 	
 	const Widget & SetRelativePos(pos::relativepos _corner,pos::relativepos _quadrant) ;
@@ -61,21 +56,7 @@ template <class A,class B ,class C,class D>
 		const SDL_Rect *cut,
 		const SDL_Rect* paste
 		);
-		/*
-	static void __TopLeftFun(Widget* w);
-	static void __TopRightFun(Widget *w);
-	static void __BottomLeft(Widget *w);
-	static void __BottomRight(Widget* w);
-	
-	static void __TopTopFun(Widget *w);
-	static void __TopBottomFun(Widget *w);
-	static void __LeftLeftFun(Widget *w);
-	static void __LeftRightFun(Widget *w);
-	static void __BottomBottomFun(Widget *w);
-	static void __BottomTopFun(Widget *w);
-	static void __RightRightFun(Widget *w);
-	static void __RightLeftFun(Widget *w);
-	*/
+
 };
 
 
