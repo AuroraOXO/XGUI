@@ -1,4 +1,4 @@
-﻿// MySDLGUI.cpp: 定义控制台应用程序的入口点。
+// MySDLGUI.cpp: 定义控制台应用程序的入口点。
 //
 
 #include "stdafx.h"
@@ -7,21 +7,47 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_image.h>
-SDL_Window *window;
-SDL_Renderer *renderer;
+#include "View.h"
+#include "Surface.h"
+
+#ifdef __ANDROID__
+extern int Android_ScreenWidth;
+extern int Android_ScreenHeight;
+#define WIN_W  Android_ScreenWidth
+#define WIN_H  Android_ScreenHeight
+#else
+#define WIN_W 640
+#define WIN_H 480
+#endif
 
 int Init();
 
-#define WIN_W 640
-#define WIN_H 480
-
 int main(int argc, char *argv[]) {
-	if (Init() > 0)
+	if (Init() <0)
 	{
 		SDL_Log("Init Error");
 		return 1;
 	}
 	SDL_Event event;
+	View v(window);
+	Surface s(300,300,200,200);
+	Surface s1(0.5,0.5,0.5,100);
+	
+	//s1.SetRelativePos(pos::bottom|pos::right,pos::bottom|pos::right);
+	
+//	v.AddChild(&s);
+//	s.AddChild(&s1);
+	
+	//while (true)
+	/*
+	{
+	clock_t t=clock();
+	SDL_Rect r=s1.GetRelativePos();
+	SDL_Log(":%d",clock()-t);
+	SDL_Log("%d %d,%d %d",r.x,r.y,r.w,r.h);
+	SDL_Delay(1000);
+	}
+	*/
 	while ( true){
 		SDL_WaitEvent(&event);
 		if (event.type == SDL_QUIT)
@@ -44,4 +70,3 @@ int Init()
 
 	return 0;
 }
-
