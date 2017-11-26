@@ -15,8 +15,8 @@ extern int Android_ScreenHeight;
 #define WIN_W  Android_ScreenWidth
 #define WIN_H  Android_ScreenHeight
 #else
-#define WIN_W 640
-#define WIN_H 480
+#define WIN_W 480
+#define WIN_H 640
 #endif
 
 SDL_Window *window;
@@ -31,17 +31,26 @@ int main(int argc, char *argv[]) {
 		SDL_Log("Init Error");
 		return 1;
 	}
+	SDL_Event event;
 	View v(window);
 	Surface sur(0.5,0.5,300,300);
-	Surface s1(0.2, 0.2, 0.2, 0.2);
+	Surface s1(0, 0,240, 320);
 
+	SDL_Texture *bg = NULL;
 	v.AddChild(&sur);
 	sur.AddChild(&s1);
-	//s1.SetRelativePos(pos::top,pos::top);
-	sur.UpdatePos();
-	SDL_Log("%d %d %d %d ",sur.rela_position.x, sur.rela_position.y, sur.rela_position.w, sur.rela_position.h);
-	SDL_Log("%d %d %d %d ", s1.rela_position.x, s1.rela_position.y, s1.rela_position.w, s1.rela_position.h);
-	SDL_Event event;
+
+	bg = IMG_LoadTexture(renderer, "c.jpg");
+	if (bg == NULL)
+		SDL_Log("bg is invaild");
+	else
+		s1.SetBackground(bg);
+	v.UpdatePos();
+	v.Draw(renderer);
+	SDL_RenderPresent(renderer);
+
+	SDL_Log("%d %d %d %d ", sur.rela_position.x, sur.rela_position.y, sur.rela_position.w, sur.rela_position.h);
+	SDL_Log("%d %d %d %d ", s1.abs_position.x, s1.abs_position.y, s1.rela_position.w, s1.rela_position.h);
 
 	while ( true){
 		SDL_WaitEvent(&event);

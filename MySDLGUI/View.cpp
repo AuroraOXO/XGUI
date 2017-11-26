@@ -16,8 +16,8 @@ View::~View()
 }
 
 void View::DoDraw(SDL_Renderer *render) {
-
-
+	if (background != NULL)
+		TextureCopy(render, background, NULL, NULL, NULL);
 }
 bool View::DoHandleEvent(SDL_Event &event) {
 	return false;

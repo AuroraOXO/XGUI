@@ -23,32 +23,35 @@ protected:
 	Widget *parent;
 	vector <Widget *> child;
 public:
-	//SDL_Rect GetRelativePos();
-	void UpdatePos();
+	
 	
 public:
-template <class A,class B ,class C,class D>
-	void SetPos(A x, B y, C w, D h){
-	position={(double )x,(double )y,(double )w,(double )h};
-	if (typeid(x)==typeid(int))
-	position.x+=0.1;
-	if (typeid(y)==typeid(int))
-	position.y+=0.1;
-	if (typeid(w)==typeid(int))
-	position.w+=0.1;
-	if (typeid(h)==typeid(int))
-	position.h+=0.1;
-	
-	}
 	Widget();
 	~Widget();
-	SDL_Texture* GetDrawboard();
+	void UpdatePos();
+	bool IsUpdate();
 	const Widget & SetRelativePos(pos::relativepos _corner,pos::relativepos _quadrant) ;
+	void SetBackground(SDL_Texture* bg);
 	void Draw( SDL_Renderer *render);
 	bool HandleEvent(SDL_Event &event);
 	void AddChild(Widget *w);
 	virtual void DoDraw(SDL_Renderer *render)=0;
 	virtual bool DoHandleEvent(SDL_Event &event) = 0;
+
+	template <class A, class B, class C, class D>
+	void SetPos(A x, B y, C w, D h) {
+		position = { (double)x,(double)y,(double)w,(double)h };
+		if (typeid(x) == typeid(int) && x != 0)
+			position.x += 0.1;
+		if (typeid(y) == typeid(int) && y != 0)
+			position.y += 0.1;
+		if (typeid(w) == typeid(int) && w != 0)
+			position.w += 0.1;
+		if (typeid(h) == typeid(int) && h != 0)
+			position.h += 0.1;
+		UpdatePos();
+	}
+
 
 	friend void  TextureCopy(
 		SDL_Renderer * ren,
