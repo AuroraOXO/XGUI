@@ -32,9 +32,17 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 	View v(window);
-	Surface sur();
+	Surface sur(0.5,0.5,300,300);
+	Surface s1(0.2, 0.2, 0.2, 0.2);
 
+	v.AddChild(&sur);
+	sur.AddChild(&s1);
+	//s1.SetRelativePos(pos::top,pos::top);
+	sur.UpdatePos();
+	SDL_Log("%d %d %d %d ",sur.rela_position.x, sur.rela_position.y, sur.rela_position.w, sur.rela_position.h);
+	SDL_Log("%d %d %d %d ", s1.rela_position.x, s1.rela_position.y, s1.rela_position.w, s1.rela_position.h);
 	SDL_Event event;
+
 	while ( true){
 		SDL_WaitEvent(&event);
 		if (event.type == SDL_QUIT)

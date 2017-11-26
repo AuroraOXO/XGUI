@@ -6,11 +6,6 @@ class Surface :
 	public Widget
 {
 
-	Surface()
-	{
-		SDL_Log("000");
-	}
-
 public:
 	SDL_Texture *drawboard;
 	

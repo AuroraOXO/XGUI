@@ -23,7 +23,7 @@ protected:
 	Widget *parent;
 	vector <Widget *> child;
 public:
-	SDL_Rect GetRelativePos();
+	//SDL_Rect GetRelativePos();
 	void UpdatePos();
 	
 public:
@@ -40,15 +40,16 @@ template <class A,class B ,class C,class D>
 	position.h+=0.1;
 	
 	}
-	
+	Widget();
+	~Widget();
+	SDL_Texture* GetDrawboard();
 	const Widget & SetRelativePos(pos::relativepos _corner,pos::relativepos _quadrant) ;
 	void Draw( SDL_Renderer *render);
 	bool HandleEvent(SDL_Event &event);
 	void AddChild(Widget *w);
 	virtual void DoDraw(SDL_Renderer *render)=0;
 	virtual bool DoHandleEvent(SDL_Event &event) = 0;
-	Widget();
-	~Widget();
+
 	friend void  TextureCopy(
 		SDL_Renderer * ren,
 		SDL_Texture * src,
@@ -56,7 +57,7 @@ template <class A,class B ,class C,class D>
 		const SDL_Rect *cut,
 		const SDL_Rect* paste
 		);
-
+	friend int main(int ,char **);
 };
 
 

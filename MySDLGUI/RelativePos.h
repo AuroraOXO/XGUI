@@ -9,8 +9,8 @@ struct pos
 	static const relativepos bottom = 0x2;
 	static const relativepos left = 0x4;
 	static const relativepos right = 0x8;
-	static const relativepos wcenter = 0x20;
-	static const relativepos hcenter = 0x40;
+	static const relativepos wcenter = 0x26;
+	static const relativepos hcenter = 0x20;
 	static const relativepos center = wcenter | hcenter;
 	//private :
 	pos() = delete;

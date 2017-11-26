@@ -4,9 +4,10 @@
 
 View::View(SDL_Window *_win)
 {
-	int _w,_h;
-	SDL_GetWindowSize(_win,&_w,&_h);
-	position={0,0,_w+0.1,_h+0.1};
+	SDL_GetWindowSize(_win,&rela_position.w,&rela_position.h);
+	renderer=SDL_GetRenderer(_win);
+	abs_position = rela_position;
+	 position={0,0,rela_position.w+0.1,rela_position.h+0.1};
 }
 
 
@@ -20,4 +21,8 @@ void View::DoDraw(SDL_Renderer *render) {
 }
 bool View::DoHandleEvent(SDL_Event &event) {
 	return false;
+}
+
+void View::Show() {
+	Draw(renderer);
 }

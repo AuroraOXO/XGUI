@@ -34,3 +34,16 @@ bool CheckColl(int px, int py, const SDL_Rect &rect)
 	SDL_SetRenderTarget(ren, NULL);
 	
 }
+ SDL_Texture* CreateTexture(SDL_Renderer *render,int w, int h) {
+
+	 SDL_Texture * tmpT;
+	 tmpT = SDL_CreateTexture(render,
+		 SDL_PIXELFORMAT_RGBA8888,
+		 SDL_TEXTUREACCESS_TARGET, w, h);
+	 SDL_SetTextureBlendMode(tmpT, SDL_BLENDMODE_BLEND);
+
+	 SDL_SetRenderTarget(render, tmpT);
+	 SDL_RenderClear(render);
+	 SDL_SetRenderTarget(render, NULL);
+	 return tmpT;
+ }

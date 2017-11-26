@@ -24,5 +24,6 @@ void TextureCopy(
 	
 	) ;
 	
+SDL_Texture* CreateTexture(SDL_Renderer *render,int w, int h);
 
 #endif

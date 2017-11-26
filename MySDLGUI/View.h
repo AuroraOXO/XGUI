@@ -9,7 +9,7 @@ public:
 	View(SDL_Window *_win);
 	~View();
 protected:
-	SDL_Window *windows;
+	SDL_Window *window;
 	SDL_Renderer *renderer;
 	void Show();
 	void Show(SDL_Renderer*);
