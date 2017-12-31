@@ -24,12 +24,6 @@
     <ClInclude Include="Widget.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="View.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Surface.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="RelativePos.h">
       <Filter>源文件</Filter>
     </ClInclude>
@@ -37,6 +31,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="config.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -48,12 +45,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Widget.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="View.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Surface.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Utilitys.cpp">

@@ -3,65 +3,41 @@
 #define  _WIDGET_H__
 #include <vector>
 #include <SDL.h>
-#include <assert.h>
-#include <typeinfo>
+#include <map>
+#include "config.h"
 #include "Utilitys.h"
 #include "RelativePos.h"
-using namespace std;
+
 class Widget
 {
 private:
 	pos::relativepos corner;
 	pos::relativepos quadrant;
-	
+	struct { float x; float y; float w; float h; } position;
+	std::multimap<int, DrawFunction> DrawFunc;
+	std::multimap<SDL_EventType, EventFunction > EventFunc;
 protected:
-	SDL_Texture *drawboard;
-	SDL_Texture *background;
-	__f_position position;
-	SDL_Rect rela_position;
-	SDL_Rect abs_position;
-	Widget *parent;
-	vector <Widget *> child;
-public:
-	
-	
-public:
 	Widget();
+	Widget *parent;
+	std::vector <Widget *> child;
+public:
 	~Widget();
-	void UpdatePos();
-	bool IsUpdate();
-	const Widget & SetRelativePos(pos::relativepos _corner,pos::relativepos _quadrant) ;
-	void SetBackground(SDL_Texture* bg);
-	void Draw( SDL_Renderer *render);
+	void RegisterFunc(int layer, DrawFunction func);
+	void RegisterFunc(SDL_EventType type, EventFunction func);
+	void Draw(SDL_Renderer *render);
 	bool HandleEvent(SDL_Event &event);
-	void AddChild(Widget *w);
-	virtual void DoDraw(SDL_Renderer *render)=0;
+	virtual void DoDraw(SDL_Renderer *render) = 0;
 	virtual bool DoHandleEvent(SDL_Event &event) = 0;
-
-	template <class A, class B, class C, class D>
-	void SetPos(A x, B y, C w, D h) {
-		position = { (double)x,(double)y,(double)w,(double)h };
-		if (typeid(x) == typeid(int) && x != 0)
-			position.x += 0.1;
-		if (typeid(y) == typeid(int) && y != 0)
-			position.y += 0.1;
-		if (typeid(w) == typeid(int) && w != 0)
-			position.w += 0.1;
-		if (typeid(h) == typeid(int) && h != 0)
-			position.h += 0.1;
-		UpdatePos();
-	}
-
-
+	const Widget & SetRelativePos(pos::relativepos _corner, pos::relativepos _quadrant);
+	void SetPosition(const char* x,const char *y,const char* w,const char* h);
 	friend void  TextureCopy(
-		SDL_Renderer * ren,
-		SDL_Texture * src,
-		SDL_Texture * dest,
-		const SDL_Rect *cut,
-		const SDL_Rect* paste
-		);
-	friend int main(int ,char **);
+		SDL_Renderer *,
+		SDL_Texture *,
+		SDL_Texture *,
+		const SDL_Rect *,
+		const SDL_Rect*
+	);
+	friend int main(int, char **);
 };
-
 
 #endif

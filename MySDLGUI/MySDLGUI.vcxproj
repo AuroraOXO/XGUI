@@ -149,13 +149,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="config.h" />
     <ClInclude Include="RelativePos.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Surface.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Utilitys.h" />
-    <ClInclude Include="View.h" />
     <ClInclude Include="Widget.h" />
   </ItemGroup>
   <ItemGroup>
@@ -166,9 +165,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Surface.cpp" />
     <ClCompile Include="Utilitys.cpp" />
-    <ClCompile Include="View.cpp" />
     <ClCompile Include="Widget.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

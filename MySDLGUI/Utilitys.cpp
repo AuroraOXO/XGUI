@@ -1,5 +1,9 @@
 #include "stdafx.h"
 #include "Utilitys.h"
+#include <SDL.h>
+#include <exception>
+#include <stdexcept>
+
 bool CheckColl(int px, int py, int rx, int ry, int rw, int rh)
 {
 	return ((px - rx) >= 0 && (px - rx)<rw && (py - ry) >= 0 && (py - ry)<rh) ? true : false;
@@ -27,7 +31,7 @@ bool CheckColl(int px, int py, const SDL_Rect &rect)
 {
 	
 	if (src == NULL)
-		throw runtime_error("Source texture is invalid");
+		throw std::runtime_error("Source texture is invalid");
 
 	SDL_SetRenderTarget(ren, dest);
 	SDL_RenderCopy(ren, src, cut, paste);
@@ -46,4 +50,30 @@ bool CheckColl(int px, int py, const SDL_Rect &rect)
 	 SDL_RenderClear(render);
 	 SDL_SetRenderTarget(render, NULL);
 	 return tmpT;
+ }
+
+ float GetDisplayDPI() {
+	 char value[10] = { 0 };
+	 float dpi = 0;
+#ifdef __ANDROID__
+	 static PFN_SYSTEM_PROP_GET __real_system_property_get = NULL;
+	 if (!__real_system_property_get) {
+		 // libc.so should already be open, get a handle to it.
+		 void *handle = dlopen("libc.so", RTLD_NOLOAD);
+		 if (!handle) {
+			 __android_log_print(ANDROID_LOG_ERROR, "foobar", "Cannot dlopen libc.so: %s. ", dlerror());
+		 }
+		 else {
+			 __real_system_property_get = (PFN_SYSTEM_PROP_GET)dlsym(handle, "__system_property_get");
+		 }
+		 if (!__real_system_property_get) {
+			 __android_log_print(ANDROID_LOG_ERROR, "foobar", "Cannot resolve __system_property_get(): %s. ", dlerror());
+		 }
+	 }
+	 (*__real_system_property_get)("ro.sf.lcd_density", value);
+	 sscanf(value, "%f", &dpi);
+#endif
+	 SDL_GetDisplayDPI(0, &dpi, NULL, NULL);
+	 return dpi;
+
  }

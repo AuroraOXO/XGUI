@@ -1,10 +1,18 @@
 #pragma once
 #ifndef __UTILITY_H__
 #define __UTILITY_H__
-#include <SDL.h>
-#include <exception>
-#include <stdexcept>
-using namespace std;
+//#include <SDL.h>
+#include <functional>
+
+extern struct SDL_Point;
+extern struct SDL_Rect;
+extern struct SDL_Renderer;
+extern struct SDL_Texture;
+extern union SDL_Event;
+
+using DrawFunction = std::function<void(SDL_Renderer *)>;
+using EventFunction = std::function<void(SDL_Event &)>;
+
 
 struct  __f_position
 {
@@ -26,4 +34,5 @@ void TextureCopy(
 	
 SDL_Texture* CreateTexture(SDL_Renderer *render,int w, int h);
 
+float GetDisplayDPI();
 #endif

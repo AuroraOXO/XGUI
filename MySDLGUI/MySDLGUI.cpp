@@ -7,8 +7,8 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_image.h>
-#include "View.h"
-#include "Surface.h"
+#include "Widget.h"
+
 #ifdef __ANDROID__
 extern int Android_ScreenWidth;
 extern int Android_ScreenHeight;
@@ -31,26 +31,8 @@ int main(int argc, char *argv[]) {
 		SDL_Log("Init Error");
 		return 1;
 	}
+	SDL_Log("%f", GetDisplayDPI());
 	SDL_Event event;
-	View v(window);
-	Surface sur(0.5,0.5,300,300);
-	Surface s1(0, 0,240, 320);
-
-	SDL_Texture *bg = NULL;
-	v.AddChild(&sur);
-	sur.AddChild(&s1);
-
-	bg = IMG_LoadTexture(renderer, "c.jpg");
-	if (bg == NULL)
-		SDL_Log("bg is invaild");
-	else
-		s1.SetBackground(bg);
-	v.UpdatePos();
-	v.Draw(renderer);
-	SDL_RenderPresent(renderer);
-
-	SDL_Log("%d %d %d %d ", sur.rela_position.x, sur.rela_position.y, sur.rela_position.w, sur.rela_position.h);
-	SDL_Log("%d %d %d %d ", s1.abs_position.x, s1.abs_position.y, s1.rela_position.w, s1.rela_position.h);
 
 	while ( true){
 		SDL_WaitEvent(&event);
