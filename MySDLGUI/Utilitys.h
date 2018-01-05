@@ -11,7 +11,7 @@ extern struct SDL_Texture;
 extern union SDL_Event;
 
 using DrawFunction = std::function<void(SDL_Renderer *)>;
-using EventFunction = std::function<void(SDL_Event &)>;
+using EventFunction = std::function<bool(SDL_Event &)>;
 
 
 struct  __f_position

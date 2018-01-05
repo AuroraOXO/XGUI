@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "Widget.h"
 #include <exception>
-
+#include <thread>
 Widget::Widget() :
 	parent(NULL)
+	, update (true)
 {
 
 }
@@ -25,15 +26,19 @@ void Widget::SetPosition(const char* x, const char *y, const char* w, const char
 	float *tmpPos[] = { &position.x, &position.y,&position.w,&position.h };
 	float dpi = GetDisplayDPI();
 	for (size_t i = 0; i < 4; i++) {
-		if (strstr(tmpStr[i], "%f")) {
-			sscanf(tmpStr[i], "%f", tmpPos[i]);
+		if (strstr(tmpStr[i], "%")) {
+			///sscanf(tmpStr[i], "%f", tmpPos[i]);
+			//strstream<<tmpStr[i];
+			*tmpPos[i] = SDL_atof(tmpStr[i]);
 			position.x /= 100;
 		}
-		if (strstr(tmpStr[i], "dp")) {
-			sscanf(tmpStr[i], "%f", tmpPos[i]);
+		else if (strstr(tmpStr[i], "dp")) {
+			//sscanf(tmpStr[i], "%f", tmpPos[i]);
+			*tmpPos[i] = SDL_atof(tmpStr[i]);
 		}
-		if (strstr(tmpStr[i], "px")) {
-			sscanf(tmpStr[i], "%f", tmpPos[i]);
+		else if (strstr(tmpStr[i], "px")) {
+			//sscanf(tmpStr[i], "%f", tmpPos[i]);
+			*tmpPos[i] = SDL_atof(tmpStr[i]);
 			*tmpPos[i] += 0.1;
 		}
 	}
@@ -60,6 +65,52 @@ void Widget::RegisterFunc(SDL_EventType type, EventFunction func) {
 	EventFunc.insert(std::make_pair(type, func));
 }
 
+void Widget::SetFrameTimer(int interval, int num) {
+	std::thread([&]() {while (num--) SDL_Delay(interval), update = true; }).detach();
+}
+
+void Widget::UpdatePos() {
+	abs_positon={
+		(int)position.x
+		,(int)position.y
+		,(int)position.w
+		,(int)position.h
+	};
+
+	if (corner&pos::top) {
+		if (quadrant&pos::top) {
+
+		}
+		if (quadrant&pos::bottom) {
+			 
+		}
+	}
+
+	if (corner&pos::left) {
+		if (quadrant&pos::left) {
+
+		}
+		if (quadrant&pos::right) {
+
+		}
+	}
+	if (corner&pos::bottom) {
+		if (quadrant&pos::bottom) {
+
+		}
+		if (quadrant&pos::top) {
+
+		}
+	}
+	if (corner&pos::right) {
+		if (quadrant&pos::right) {
+
+		}
+		if (quadrant&pos::left) {
+
+		}
+	}
+}
 
 /*
 
@@ -122,7 +173,7 @@ if (position.h <= 1)
 rela_position.h = Pa.y * position.h;
 if (position.y>1)
 rela_position.y = Pa.y - rela_position.h - position.y;
-else
+else 
 rela_position.y = (1 - position.y) * (Pa.y);
 }
 
