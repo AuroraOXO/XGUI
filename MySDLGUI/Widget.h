@@ -15,9 +15,10 @@ private:
 	pos::relativepos corner;
 	pos::relativepos quadrant;
 	struct { float x; float y; float w; float h; } position;
-	SDL_Rect abs_positon;
+	SDL_Rect abs_position;
 	std::multimap<int, DrawFunction> DrawFunc;
 	std::multimap<SDL_EventType, EventFunction > EventFunc;
+	std::map<const char *, Uint32> Timer;
 protected:
 	Widget();
 	Widget *parent;

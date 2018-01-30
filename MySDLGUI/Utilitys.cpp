@@ -56,22 +56,26 @@ bool CheckColl(int px, int py, const SDL_Rect &rect)
 	 char value[10] = { 0 };
 	 float dpi = 0;
 #ifdef __ANDROID__
-	 static PFN_SYSTEM_PROP_GET __real_system_property_get = NULL;
-	 if (!__real_system_property_get) {
-		 // libc.so should already be open, get a handle to it.
-		 void *handle = dlopen("libc.so", RTLD_NOLOAD);
+	 int(*__real_system_property_get)(const char *, char *) = NULL;
+
+		 void *handle = SDL_LoadObject("libc.so");
+
 		 if (!handle) {
-			 __android_log_print(ANDROID_LOG_ERROR, "foobar", "Cannot dlopen libc.so: %s. ", dlerror());
+			 SDL_Log("Cannot dlopen libc.so: %s. ", SDL_GetError());
+			 return -1;
 		 }
 		 else {
-			 __real_system_property_get = (PFN_SYSTEM_PROP_GET)dlsym(handle, "__system_property_get");
+			 __real_system_property_get = (int(*)(const char*, char*)) SDL_LoadFunction(handle, "__system_property_get");
 		 }
 		 if (!__real_system_property_get) {
-			 __android_log_print(ANDROID_LOG_ERROR, "foobar", "Cannot resolve __system_property_get(): %s. ", dlerror());
+			 SDL_Log("Load function failed: %s. ", SDL_GetError());
+			 return -1;
 		 }
-	 }
-	 (*__real_system_property_get)("ro.sf.lcd_density", value);
-	 sscanf(value, "%f", &dpi);
+		 (*__real_system_property_get) ("ro.sf.lcd_density", value);
+ 
+	 //sscanf(value, "%f", &dpi);
+	 dpi = SDL_atoi(dpi);
+	 return dpi;
 #endif
 	 SDL_GetDisplayDPI(0, &dpi, NULL, NULL);
 	 return dpi;

@@ -35,6 +35,7 @@ void Widget::SetPosition(const char* x, const char *y, const char* w, const char
 		else if (strstr(tmpStr[i], "dp")) {
 			//sscanf(tmpStr[i], "%f", tmpPos[i]);
 			*tmpPos[i] = SDL_atof(tmpStr[i]);
+			*tmpPos[i] += 0.1;
 		}
 		else if (strstr(tmpStr[i], "px")) {
 			//sscanf(tmpStr[i], "%f", tmpPos[i]);
@@ -70,23 +71,159 @@ void Widget::SetFrameTimer(int interval, int num) {
 }
 
 void Widget::UpdatePos() {
-	abs_positon={
+	abs_position={
 		(int)position.x
 		,(int)position.y
 		,(int)position.w
 		,(int)position.h
 	};
+	SDL_Rect* pPos;
+	SDL_Rect* graPos;
+	auto TopLeft = [=](pos::relativepos relapos, int &xy, int &wh) {
+		if (relapos&pos::top | pos::left) {
+			if (position.h <= 1)
+				wh = (pPos->y - graPos->y)*position.h;
+			if (position.y <= 0)
+				xy = (1 - position.y)*(pPos->y - graPos->y);
+			else
+				xy = pPos->y - wh - position.y;
+		}
+		if (relapos&pos::bottom | pos::right) {
+			if (position.h <= 1)
+				wh = (graPos->h - pPos->y - graPos->y)*position.h;
+			if (position.y <= 1)
+				xy = pPos->y + (graPos->h - pPos->y - graPos->y)*position.y;
+			else
+				xy = pPos->y + position.y;
+		}
+	};
 
+	auto BottomRight = [=](pos::relativepos relapos, int &xy, int &wh) {
+		if (relapos&pos::bottom | pos::right) {
+			if (position.h <= 1)
+				wh = (graPos->h - pPos->y - graPos->y - pPos->h)*position.h;
+			if (position.y <= 1)
+				xy = (graPos->h - pPos->y - graPos->y - pPos->h)*position.y;
+			else
+				xy = pPos->y + pPos->h + position.y;
+		}
+		if (relapos&pos::top | pos::left) {
+			if (position.h <= 1)
+				wh = (pPos->y - graPos->y + pPos->h)*position.h;
+			if (position.y <= 1)
+				xy = (pPos->y - graPos->y + pPos->h)*(1 - position.y);
+			else
+				xy = pPos->y - graPos->y + pPos->h - wh - position.y;
+		}
+	};
+	if (parent == NULL);
+		goto loop;
+	pPos=&parent->abs_position;
+
+	if (!(corner & quadrant)) {
+		if (corner& pos::top) {
+			if (position.y <= 1)
+				abs_position.y = pPos->h*position.y;
+			if (position.h <= 1)
+			    abs_position.h = pPos->h*position.h;
+		}
+
+		if (corner&pos::bottom) {
+			if (position.h <= 1)
+				abs_position.h = pPos->h*position.h;
+			if (position.y <= 1)
+				abs_position.y = pPos->h - abs_position.h - pPos->h*position.y;
+			else
+				abs_position.y = pPos->h - position.h - position.y;
+		}
+
+		if (corner&pos::left) {
+			if (position.x <= 1)
+				abs_position.x = pPos->w*position.x;
+			if (position.w <= 1)
+				abs_position.w = pPos->w*position.w;
+		}
+		if (corner&pos::right) {
+			if (position.w <= 1)
+				abs_position.w = pPos->w*position.w;
+			if (position.x <= 1)
+				abs_position.x = pPos->w - abs_position.w - pPos->w*position.x;
+			else 
+				abs_position.x = pPos->w - abs_position.w - position.x;
+		}
+		abs_position.x += pPos->x;
+		abs_position.y += pPos->y;
+		goto loop;
+	}
+
+	if (parent->parent == NULL)
+		throw std::runtime_error("Grandfather is NULL");
+
+	graPos = &parent->parent->abs_position;
+	/*
+	auto TopLeft=[=](pos::relativepos relapos,int &xy,int &wh) {
+		if (relapos&pos::top|pos::left) {
+			if (position.h <= 1)
+				wh = (pPos->y - graPos->y)*position.h;
+			if (position.y <= 0)
+				xy = (1 - position.y)*(pPos->y - graPos->y);
+			else
+				xy = pPos->y - wh - position.y;
+		}
+		if (relapos&pos::bottom|pos::right) {
+			if (position.h <= 1)
+				wh = (graPos->h - pPos->y - graPos->y)*position.h;
+			if (position.y <= 1)
+				xy = pPos->y + (graPos->h - pPos->y - graPos->y)*position.y;
+			else
+				xy = pPos->y + position.y;
+		}
+	};
+
+	auto BottomRight = [=](pos::relativepos relapos, int &xy, int &wh) {
+		if (relapos&pos::bottom | pos::right) {
+			if (position.h <= 1)
+				wh = (graPos->h - pPos->y - graPos->y - pPos->h)*position.h;
+			if (position.y <= 1)
+				xy = (graPos->h - pPos->y - graPos->y - pPos->h)*position.y;
+			else
+				xy = pPos->y + pPos->h + position.y;
+			}
+		if (relapos&pos::top | pos::left) {
+			if (position.h <= 1)
+				wh = (pPos->y - graPos->y + pPos->h)*position.h;
+			if (position.y <= 1)
+				xy = (pPos->y - graPos->y + pPos->h)*(1 - position.y);
+			else
+				xy = pPos->y - graPos->y + pPos->h - wh - position.y;
+			}
+		};
+	*/
 	if (corner&pos::top) {
+		TopLeft(quadrant, abs_position.y, abs_position.h);
+		/*
 		if (quadrant&pos::top) {
 
+			if (position.h <= 1)
+				abs_position.h = (pPos->y - graPos->y)*position.h;
+			if (position.y <= 0)
+				abs_position.y = (1 - position.y)*(pPos->y - graPos->y);
+			else
+				abs_position.y = pPos->y - abs_position.h - position.y;
 		}
 		if (quadrant&pos::bottom) {
-			 
+			if (position.h <= 1)
+				abs_position.h = (graPos->h - pPos->y - graPos->y)*position.h;
+			if (position.y <= 1)
+				abs_position.y = pPos->y + (graPos->h - pPos->y - graPos->y)*position.y;
+			else
+				abs_position.y = pPos->y + position.y;
 		}
+		*/
 	}
 
 	if (corner&pos::left) {
+		TopLeft(quadrant, abs_position.x, abs_position.h);
 		if (quadrant&pos::left) {
 
 		}
@@ -94,21 +231,44 @@ void Widget::UpdatePos() {
 
 		}
 	}
-	if (corner&pos::bottom) {
-		if (quadrant&pos::bottom) {
 
+	////////////////////////////////////////////////////
+	if (corner&pos::bottom) {
+		BottomRight(quadrant, abs_position.y, abs_position.h);
+		/*
+		if (quadrant&pos::bottom) {
+			if (position.h <= 1)
+				abs_position.h = (graPos->h - pPos->y - graPos->y - pPos->h)*position.h;
+			if (position.y <= 1)
+				abs_position.y= (graPos->h - pPos->y - graPos->y - pPos->h)*position.y;
+			else
+				abs_position.y = pPos->y + pPos->h + position.y;
 		}
 		if (quadrant&pos::top) {
-
+			if (position.h <= 1)
+				abs_position.h=(pPos->y - graPos->y + pPos->h)*position.h;
+			if (position.y <= 1)
+				abs_position.y=(pPos->y - graPos->y + pPos->h)*(1-position.y);
+			else
+				abs_position.y=pPos->y-graPos->y+pPos->h-abs_position.h-position.y;
 		}
+		*/
 	}
+
 	if (corner&pos::right) {
+		BottomRight(quadrant, abs_position.x, abs_position.w);
+
 		if (quadrant&pos::right) {
 
 		}
 		if (quadrant&pos::left) {
 
 		}
+	}
+	
+loop:
+	for (Widget *chil : child) {
+		chil->UpdatePos();
 	}
 }
 
